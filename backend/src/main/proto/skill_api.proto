@@ -4,7 +4,7 @@ package com.congcoi123.example.backend.skill;
 
 option java_multiple_files = true;
 option java_outer_classname = "SkillApiProto";
-option java_package = "com.congcoi123.example.backend.skill";
+option java_package = "com.congcoi123.example.backend.proto.skill";
 
 import "skill.proto";
 
