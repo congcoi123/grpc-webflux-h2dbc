@@ -1,6 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
 
+val springBootVersion = "2.4.4"
+val grpcStarterVersion = "4.4.5"
+val googleCommonProtosVersion = "2.5.0"
+val grpcVersion = "1.40.1"
+val rxgrpcVersion = "1.2.0"
+val rxJavaVersion = "2.2.20"
+
 buildscript {
 	dependencies {
 		classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.14")
@@ -8,13 +15,12 @@ buildscript {
 }
 
 plugins {
-	id("org.springframework.boot") version "2.5.4"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	id("com.google.protobuf") version "0.8.11"
+	id("org.springframework.boot") version "2.4.4"
+	id("com.google.protobuf") version "0.8.8"
 	id("idea")
 	id("java")
-	kotlin("jvm") version "1.5.21"
-	kotlin("plugin.spring") version "1.5.21"
+	kotlin("jvm") version "1.4.30"
+	kotlin("plugin.spring") version "1.4.30"
 }
 
 group = "com.congcoi123.example"
@@ -29,20 +35,41 @@ repositories {
 }
 
 dependencies {
+	// spring boot
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+	// grpc base configuration
+	implementation("io.github.lognet:grpc-spring-boot-starter:$grpcStarterVersion")
+
+	// grpc
+	implementation("com.google.api.grpc:proto-google-common-protos:$googleCommonProtosVersion")
+	implementation("io.grpc:grpc-netty:$grpcVersion")
+	implementation("io.grpc:grpc-protobuf:$grpcVersion")
+	implementation("io.grpc:grpc-stub:$grpcVersion")
+
+	// reactive grpc
+	implementation("com.salesforce.servicelibs:rxgrpc-stub:$rxgrpcVersion")
+
+	// reflection
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-	implementation("com.google.protobuf:protobuf-java:3.6.1")
-	implementation("io.github.lognet:grpc-spring-boot-starter:4.5.6")
-	implementation("io.grpc:grpc-stub:1.15.1")
-	implementation("io.grpc:grpc-protobuf:1.15.1")
-	implementation("io.reactivex.rxjava2:rxjava:2.2.20")
-	implementation("com.salesforce.servicelibs:rxgrpc-stub:1.2.0")
+
+	// reactive
+	implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
+
+	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.projectreactor:reactor-test")
+}
+
+configurations {
+	all {
+		resolutionStrategy.eachDependency {
+			if (requested.group == "org.springframework.boot") {
+				useVersion(springBootVersion)
+			}
+		}
+	}
 }
 
 tasks.withType<KotlinCompile> {
@@ -64,10 +91,10 @@ protobuf {
 	}
 	plugins {
 		id("grpc") {
-			artifact = "io.grpc:protoc-gen-grpc-java:1.15.1"
+			artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
 		}
 		id("rxgrpc") {
-			artifact = "com.salesforce.servicelibs:rxgrpc:1.2.0"
+			artifact = "com.salesforce.servicelibs:rxgrpc:$rxgrpcVersion"
 		}
 	}
 	generateProtoTasks {

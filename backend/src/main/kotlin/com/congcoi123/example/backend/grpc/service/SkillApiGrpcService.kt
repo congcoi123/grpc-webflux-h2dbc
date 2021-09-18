@@ -1,18 +1,18 @@
 package com.congcoi123.example.backend.grpc.service
 
-import com.congcoi123.example.backend.grpc.CastSkill
-import com.congcoi123.example.backend.skill.CastSkillRequest
-import com.congcoi123.example.backend.skill.CastSkillRequestResponse
-import com.congcoi123.example.backend.skill.RxSkillAPIGrpc
-import com.congcoi123.example.backend.skill.Skill
-import io.reactivex.Flowable
+import com.congcoi123.example.backend.skill.*
 import io.reactivex.Single
 import org.lognet.springboot.grpc.GRpcService
 
 @GRpcService
 class SkillApiGrpcService(
-    val castSkill: CastSkill
+
 ) : RxSkillAPIGrpc.SkillAPIImplBase() {
 
-
+    override fun castSkill(request: Single<CastSkillRequest>): Single<CastSkillRequestResponse> =
+        request.map {
+            it -> CastSkillRequestResponse.newBuilder().setResult(
+                CastedSkill.newBuilder().setSkillId(it.skill.skillId).setEffective(true).build()
+            ).build()
+        }
 }
