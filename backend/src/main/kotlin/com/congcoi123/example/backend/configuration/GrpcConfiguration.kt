@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.io.IOException
 
-
 @Configuration
 @EnableConfigurationProperties(GrpcProperty::class)
 class GrpcConfiguration {
@@ -23,7 +22,7 @@ class GrpcConfiguration {
             override fun configure(serverBuilder: ServerBuilder<*>?) {
                 super.configure(serverBuilder)
                 try {
-                    (serverBuilder as NettyServerBuilder)?.sslContext(sslContextConfiguration(grpcProperty))
+                    (serverBuilder as NettyServerBuilder).sslContext(sslContextConfiguration(grpcProperty))
                 } catch (e: IOException) {
                     throw RuntimeException("SSL cert or key files are missing", e)
                 }

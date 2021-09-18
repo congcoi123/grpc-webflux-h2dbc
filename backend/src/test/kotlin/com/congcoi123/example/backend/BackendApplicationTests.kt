@@ -58,7 +58,7 @@ class BackendApplicationTests(
 		logger.info(skill.toString())
 
 		val request = Single.just(CastSkillRequest.newBuilder().setSkill(skill).build())
-		val expectedResult = CastedSkill.newBuilder().setEffective(true).build()
+//		val expectedResult = CastedSkill.newBuilder().setEffective(true).build()
 
 //		caster.castSkill(request)
 //			.map(CastSkillRequestResponse::getResult)

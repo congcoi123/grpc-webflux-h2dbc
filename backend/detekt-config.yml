@@ -1,0 +1,20 @@
+build:
+  maxIssues: 0
+
+complexity:
+  TooManyFunctions:
+    active: false
+  LongMethod: &excludeTests
+    excludes: "**/test/**"
+  LongParameterList: *excludeTests
+  LargeClass: *excludeTests
+
+style:
+  MaxLineLength:
+    active: false
+
+  ThrowsCount:
+    active: false
+
+  ReturnCount:
+    active: false

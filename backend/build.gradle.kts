@@ -17,6 +17,7 @@ buildscript {
 plugins {
 	id("org.springframework.boot") version "2.4.4"
 	id("com.google.protobuf") version "0.8.8"
+	id("io.gitlab.arturbosch.detekt") version "1.18.1"
 	id("idea")
 	id("java")
 	kotlin("jvm") version "1.4.30"
@@ -40,6 +41,9 @@ dependencies {
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.4")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+	// detekt
+	implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 
 	// grpc base configuration
 	implementation("io.github.lognet:grpc-spring-boot-starter:$grpcStarterVersion")
@@ -124,4 +128,14 @@ protobuf {
 
 tasks["clean"].doFirst {
 	delete("${projectDir}/src/generated/")
+}
+
+detekt {
+	reports {
+		xml.enabled = false
+		html.enabled = false
+	}
+	config = this.config.from("detekt-config.yml")
+	parallel = true
+	buildUponDefaultConfig = true
 }
