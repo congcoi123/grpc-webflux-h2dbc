@@ -58,11 +58,17 @@ dependencies {
 	// reactive
 	implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
 
+	// logging
+	implementation("org.springframework.boot:spring-boot-starter-log4j2")
+
 	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 configurations {
+	compile {
+		exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+	}
 	all {
 		resolutionStrategy.eachDependency {
 			if (requested.group == "org.springframework.boot") {

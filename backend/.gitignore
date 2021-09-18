@@ -8,6 +8,9 @@ build/
 ### Generated Proto ###
 src/generated/
 
+### Logging ###
+logs/
+
 ### STS ###
 .apt_generated
 .classpath

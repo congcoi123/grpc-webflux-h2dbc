@@ -1,13 +1,13 @@
 package com.congcoi123.example.backend
 
 import com.congcoi123.example.backend.skill.*
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
+import io.grpc.ManagedChannelBuilder
 import io.reactivex.Single
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.lognet.springboot.grpc.autoconfigure.GRpcServerProperties
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -17,15 +17,20 @@ import org.springframework.test.context.ActiveProfiles
 )
 @ActiveProfiles("test")
 class BackendApplicationTests(
-	@Autowired private val gRpcProperties: GRpcServerProperties,
-	private var castSkill: RxSkillAPIGrpc.RxSkillAPIStub
+	@Autowired private val gRpcProperties: GRpcServerProperties
 ) {
+
+	private val logger: Logger = LoggerFactory.getLogger(BackendApplicationTests::class.java)
+
+	lateinit var caster: RxSkillAPIGrpc.RxSkillAPIStub
 
 	@BeforeEach
 	fun setup() {
-		val channel = NettyChannelBuilder.forAddress("127.0.0.1", gRpcProperties.port)
+		val channel = ManagedChannelBuilder.forAddress("127.0.0.1", gRpcProperties.port)
+			.usePlaintext()
 			.build()
-		castSkill = RxSkillAPIGrpc.newRxStub(channel)
+
+		caster = RxSkillAPIGrpc.newRxStub(channel)
 	}
 
 	@Test
@@ -36,13 +41,16 @@ class BackendApplicationTests(
 			.setDamage(10)
 			.build()
 
-		val request = Single.just(CastSkillRequest.newBuilder().setSkill(skill).build())
+		logger.info(skill.toString())
 
-		request.`as`(castSkill::castSkill)
+		val request = Single.just(CastSkillRequest.newBuilder().setSkill(skill).build())
+		val expectedResult = CastedSkill.newBuilder().setEffective(true).build()
+
+		caster.castSkill(request)
 			.map(CastSkillRequestResponse::getResult)
-			.subscribe{
-				it -> Assertions.assertTrue(it.effective)
-			}
+			.test()
+			.await()
+			.assertValue(expectedResult)
 	}
 
 }

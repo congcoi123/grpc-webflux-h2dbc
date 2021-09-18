@@ -9,10 +9,12 @@ class SkillApiGrpcService(
 
 ) : RxSkillAPIGrpc.SkillAPIImplBase() {
 
-    override fun castSkill(request: Single<CastSkillRequest>): Single<CastSkillRequestResponse> =
-        request.map {
-            it -> CastSkillRequestResponse.newBuilder().setResult(
+    override fun castSkill(request: Single<CastSkillRequest>): Single<CastSkillRequestResponse> {
+        print(request)
+        return request.map { it ->
+            CastSkillRequestResponse.newBuilder().setResult(
                 CastedSkill.newBuilder().setSkillId(it.skill.skillId).setEffective(true).build()
             ).build()
         }
+    }
 }
