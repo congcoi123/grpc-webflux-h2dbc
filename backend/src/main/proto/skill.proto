@@ -7,6 +7,20 @@ option java_outer_classname = "SkillProto";
 option java_package = "com.congcoi123.example.backend.skill";
 
 message Skill {
-  string name = 1;
-  uint32 damage = 2;
+  uint64 skill_id = 1;
+  SkillType type = 2;
+  string name = 3;
+  uint32 damage = 4;
+}
+
+enum SkillType {
+  SKILL_TYPE_NONE = 0;
+  SKILL_TYPE_UNKNOWN = 1;
+  SKILL_TYPE_SUMMON = 2;
+  SKILL_TYPE_FIRE = 3;
+  SKILL_TYPE_WATER = 4;
+  SKILL_TYPE_WIND = 5;
+  SKILL_TYPE_THUNDER = 6;
+  SKILL_TYPE_ROCK = 7;
+  SKILL_TYPE_WOOD = 8;
 }

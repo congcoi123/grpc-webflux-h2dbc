@@ -36,6 +36,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	implementation("com.google.protobuf:protobuf-java:3.6.1")
+	implementation("io.github.lognet:grpc-spring-boot-starter:4.5.6")
 	implementation("io.grpc:grpc-stub:1.15.1")
 	implementation("io.grpc:grpc-protobuf:1.15.1")
 	implementation("io.reactivex.rxjava2:rxjava:2.2.20")
@@ -56,7 +57,7 @@ tasks.withType<Test> {
 }
 
 protobuf {
-	generatedFilesBaseDir = "${projectDir}/src"
+	generatedFilesBaseDir = "${projectDir}/src/generated/"
 
 	protoc {
 		artifact = "com.google.protobuf:protoc:3.6.1"
@@ -72,14 +73,14 @@ protobuf {
 	generateProtoTasks {
 		ofSourceSet("main").forEach {
 			it.doFirst {
-				delete("${projectDir}/generated/source/proto/main/java")
+				delete("${projectDir}/src/generated/")
 			}
 			it.plugins {
 				id("grpc") {
-					outputSubDir = "${projectDir}/generated/source/proto/main/java"
+					 outputSubDir = "java"
 				}
 				id("rxgrpc") {
-
+					 outputSubDir = "rxgrpc"
 				}
 			}
 		}
@@ -87,5 +88,5 @@ protobuf {
 }
 
 tasks["clean"].doFirst {
-	delete("${projectDir}/src/main/java")
+	delete("${projectDir}/src/generated/")
 }

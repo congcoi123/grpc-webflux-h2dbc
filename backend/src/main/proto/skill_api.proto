@@ -18,6 +18,10 @@ message CastSkillRequest {
 }
 
 message CastSkillRequestResponse {
-  Skill skill = 1;
+  CastedSkill result = 1;
+}
+
+message CastedSkill {
+  uint64 skill_id = 1;
   bool effective = 2;
 }
