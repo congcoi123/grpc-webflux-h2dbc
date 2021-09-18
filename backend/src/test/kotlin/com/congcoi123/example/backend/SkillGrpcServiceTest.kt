@@ -1,9 +1,6 @@
 package com.congcoi123.example.backend
 
 import com.congcoi123.example.backend.proto.skill.*
-import io.grpc.ManagedChannelBuilder
-import io.grpc.ServerBuilder
-import io.grpc.netty.NettyServerBuilder
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
@@ -20,17 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.util.concurrent.TimeUnit
-import kotlin.math.log
 
 @SpringBootTest(
 	webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @ActiveProfiles("test")
-class BackendApplicationTests(
+class SkillGrpcServiceTest(
 	@Autowired private val gRpcProperties: GRpcServerProperties
 ) {
 
-	private val logger: Logger = LoggerFactory.getLogger(BackendApplicationTests::class.java)
+	private val logger: Logger = LoggerFactory.getLogger(SkillGrpcServiceTest::class.java)
 
 	lateinit var caster: RxSkillAPIGrpc.RxSkillAPIStub
 

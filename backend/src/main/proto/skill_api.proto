@@ -9,15 +9,16 @@ option java_package = "com.congcoi123.example.backend.proto.skill";
 import "skill.proto";
 
 service SkillAPI {
-  rpc CastSkill(CastSkillRequest) returns (CastSkillRequestResponse);
-  rpc CastMultipleSkill(stream CastSkillRequest) returns (stream CastSkillRequestResponse);
+  rpc CastSkill(CastSkillRequest) returns (CastSkillResponse);
+  rpc CastComboSkill(stream CastSkillRequest) returns (CastSkillResponse);
+  rpc CastMultipleSkill(stream CastSkillRequest) returns (stream CastSkillResponse);
 }
 
 message CastSkillRequest {
   Skill skill = 1;
 }
 
-message CastSkillRequestResponse {
+message CastSkillResponse {
   CastedSkill result = 1;
 }
 

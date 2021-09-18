@@ -24,7 +24,7 @@ class GrpcConfiguration {
                 try {
                     (serverBuilder as NettyServerBuilder).sslContext(sslContextConfiguration(grpcProperty))
                 } catch (e: IOException) {
-                    throw RuntimeException("SSL cert or key files are missing", e)
+                    throw IllegalArgumentException("SSL cert or key files are missing", e)
                 }
             }
         }
