@@ -1,2 +1,24 @@
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8081
+  endpoint:
+    health:
+      enabled: true
+  endpoints:
+    web:
+      base-path: /
+
 grpc:
+  port: 6565
+  ssl:
+    server-certificate: classpath:service-dummy.cert
+    server-key: classpath:/service-dummy.key
+  enabled: true
   enable-reflection: true
+
+spring:
+  main:
+    web-application-type: reactive

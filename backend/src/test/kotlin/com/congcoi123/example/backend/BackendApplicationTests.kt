@@ -2,6 +2,12 @@ package com.congcoi123.example.backend
 
 import com.congcoi123.example.backend.skill.*
 import io.grpc.ManagedChannelBuilder
+import io.grpc.netty.NettyServerBuilder
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts
+import io.grpc.netty.shaded.io.grpc.netty.NegotiationType
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider
 import io.reactivex.Single
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,8 +32,12 @@ class BackendApplicationTests(
 
 	@BeforeEach
 	fun setup() {
-		val channel = ManagedChannelBuilder.forAddress("127.0.0.1", gRpcProperties.port)
-			.usePlaintext()
+		val channel = NettyChannelBuilder.forAddress("127.0.0.1", gRpcProperties.port)
+			.negotiationType(NegotiationType.TLS)
+			.sslContext(GrpcSslContexts.configure(
+				SslContextBuilder.forClient(),
+				SslProvider.OPENSSL
+			).trustManager().build())
 			.build()
 
 		caster = RxSkillAPIGrpc.newRxStub(channel)
