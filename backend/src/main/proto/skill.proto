@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.congcoi123.example.backend.skill;
+
+option java_multiple_files = true;
+option java_outer_classname = "SkillProto";
+option java_package = "com.congcoi123.example.backend.skill";
+
+message Skill {
+  string name = 1;
+  uint32 damage = 2;
+}

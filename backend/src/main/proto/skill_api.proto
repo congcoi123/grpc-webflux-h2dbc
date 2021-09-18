@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.congcoi123.example.backend.skill;
+
+option java_multiple_files = true;
+option java_outer_classname = "SkillApiProto";
+option java_package = "com.congcoi123.example.backend.skill";
+
+import "skill.proto";
+
+service SkillAPI {
+  rpc CastSkill(CastSkillRequest) returns (CastSkillRequestResponse);
+  rpc CastMultipleSkill(stream CastSkillRequest) returns (stream CastSkillRequestResponse);
+}
+
+message CastSkillRequest {
+  Skill skill = 1;
+}
+
+message CastSkillRequestResponse {
+  Skill skill = 1;
+  bool effective = 2;
+}
