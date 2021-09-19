@@ -22,3 +22,16 @@ grpc:
 spring:
   main:
     web-application-type: reactive
+
+  http:
+    log-request-details: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+  r2dbc:
+    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    name: sa
+    password:

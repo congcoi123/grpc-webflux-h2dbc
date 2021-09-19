@@ -11,10 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.web.reactive.function.client.WebClient
-import reactor.kotlin.adapter.rxjava.toMaybe
-import reactor.kotlin.adapter.rxjava.toSingle
-import reactor.kotlin.core.publisher.toMono
-import reactor.kotlin.test.test
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
@@ -46,7 +42,7 @@ class SkillRestControllerTest(
             .attribute("damage", 10)
             .retrieve()
             .bodyToMono(Skill::class.java)
-            .map{logger.warn(it.toString())}
+            .map { logger.warn(it.toString()) }
             .block()
 
         logger.warn(result.toString())

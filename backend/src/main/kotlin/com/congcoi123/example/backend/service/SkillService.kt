@@ -10,7 +10,7 @@ import kotlin.random.Random
 
 @Service
 class SkillService(
-    private val skillRepository: SkillRepository
+    // val skillRepository: SkillRepository
 ) {
 
     suspend fun castSkill(skill: Single<SkillDto>): Single<CastedSkillDto> =

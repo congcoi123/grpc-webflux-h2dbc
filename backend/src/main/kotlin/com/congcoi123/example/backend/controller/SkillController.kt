@@ -8,12 +8,14 @@ import com.congcoi123.example.backend.service.SkillService
 import io.reactivex.Single
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/api")
 class SkillController(
-    private val skillService: SkillService
+    val skillService: SkillService
 ) {
 
     @GetMapping(

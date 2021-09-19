@@ -7,6 +7,7 @@ val googleCommonProtosVersion = "2.5.0"
 val grpcVersion = "1.40.1"
 val rxgrpcVersion = "1.2.0"
 val rxJavaVersion = "2.2.20"
+val h2R2dbcVersion = "1.0.0.BUILD-SNAPSHOT"
 
 buildscript {
 	dependencies {
@@ -63,6 +64,10 @@ dependencies {
 
 	// reactive
 	implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
+
+	// database
+	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+	runtimeOnly("io.r2dbc:r2dbc-h2:$h2R2dbcVersion")
 
 	// logging
 	implementation("org.springframework.boot:spring-boot-starter-log4j2")
