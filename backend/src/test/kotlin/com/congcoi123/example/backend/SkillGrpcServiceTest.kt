@@ -28,7 +28,7 @@ class SkillGrpcServiceTest(
 
 	private val logger: Logger = LoggerFactory.getLogger(SkillGrpcServiceTest::class.java)
 
-	lateinit var caster: RxSkillAPIGrpc.RxSkillAPIStub
+	private lateinit var caster: RxSkillAPIGrpc.RxSkillAPIStub
 
 	@BeforeEach
 	fun setup() {
