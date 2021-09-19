@@ -1,13 +1,19 @@
 package com.congcoi123.example.backend.enum
 
-enum class SkillType {
-    SKILL_TYPE_NONE,
-    SKILL_TYPE_UNKNOWN,
-    SKILL_TYPE_SUMMON,
-    SKILL_TYPE_FIRE,
-    SKILL_TYPE_WATER,
-    SKILL_TYPE_WIND,
-    SKILL_TYPE_THUNDER,
-    SKILL_TYPE_ROCK,
-    SKILL_TYPE_WOOD
+enum class SkillType(
+    val value: Int
+) {
+    SKILL_TYPE_NONE(0),
+    SKILL_TYPE_UNKNOWN(1),
+    SKILL_TYPE_SUMMON(2),
+    SKILL_TYPE_FIRE(3),
+    SKILL_TYPE_WATER(4),
+    SKILL_TYPE_WIND(5),
+    SKILL_TYPE_THUNDER(6),
+    SKILL_TYPE_ROCK(7),
+    SKILL_TYPE_WOOD(8);
+
+    companion object {
+        fun fromInt(value: Int) = SkillType.values().first { it.value == value }
+    }
 }

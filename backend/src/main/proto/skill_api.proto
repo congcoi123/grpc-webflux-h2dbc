@@ -10,7 +10,7 @@ import "skill.proto";
 
 service SkillAPI {
   rpc CastSkill(CastSkillRequest) returns (CastSkillResponse);
-  rpc CastComboSkill(stream CastSkillRequest) returns (CastSkillResponse);
+  rpc CastComboSkill(CastSkillRequest) returns (stream CastSkillResponse);
   rpc CastMultipleSkill(stream CastSkillRequest) returns (stream CastSkillResponse);
 }
 
@@ -19,10 +19,10 @@ message CastSkillRequest {
 }
 
 message CastSkillResponse {
-  CastedSkill result = 1;
+  CastedSkill casted_skill = 1;
 }
 
 message CastedSkill {
-  uint64 skill_id = 1;
+  Skill skill = 1;
   bool effective = 2;
 }
