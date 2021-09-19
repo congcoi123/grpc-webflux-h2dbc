@@ -5,13 +5,14 @@ import com.congcoi123.example.backend.dto.SkillDto
 import com.congcoi123.example.backend.repository.SkillRepository
 import io.reactivex.Flowable
 import io.reactivex.Single
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import kotlin.random.Random
 
 @Service
-class SkillService(
-    // val skillRepository: SkillRepository
-) {
+class SkillService {
+
+    @Autowired private lateinit var skillRepository: SkillRepository
 
     suspend fun castSkill(skill: Single<SkillDto>): Single<CastedSkillDto> =
         skill.map {

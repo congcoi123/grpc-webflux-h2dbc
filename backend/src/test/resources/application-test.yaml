@@ -4,20 +4,9 @@ grpc:
 server:
   port: ${random.int(10000,40000)}
 
-management:
-  server:
-    port: ${random.int(10000,40000)}
-
 spring:
   main:
     web-application-type: reactive
-
-  http:
-    log-request-details: true
-
-  h2:
-    console:
-      enabled: true
 
   datasource:
     username: sa

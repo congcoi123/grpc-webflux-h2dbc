@@ -1,16 +1,6 @@
 server:
   port: 8080
 
-management:
-  server:
-    port: 8081
-  endpoint:
-    health:
-      enabled: true
-  endpoints:
-    web:
-      base-path: /
-
 grpc:
   port: 6565
   ssl:
@@ -29,9 +19,13 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2
+      path: h2-console
+      settings:
+        trace: true
 
-  r2dbc:
-    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    name: sa
+  datasource:
+    username: sa
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
     password:
+    dbname: testdb
