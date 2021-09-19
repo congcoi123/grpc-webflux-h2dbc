@@ -1,6 +1,5 @@
 package com.congcoi123.example.backend.dao
 
-import com.congcoi123.example.backend.enum.SkillType
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
@@ -11,7 +10,7 @@ data class Skill(
     @Column("skill_id")
     val skillId: Long?,
     @Column("type")
-    val type: SkillType,
+    val type: Int,
     @Column("name")
     val name: String,
     @Column("damage")

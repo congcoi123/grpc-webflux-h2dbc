@@ -31,9 +31,9 @@
         </Root>
 
         <!-- LOG "package*" at OTHERS level -->
-        <Logger name="com.congcoi123.example.backend.grpc" level="trace"/>
-        <Logger name="org.springframework.data.r2dbc" level="debug"/>
-        <Logger name="org.springframework.web.reactive.function.client.ExchangeFunctions" level="trace"/>
+<!--        <Logger name="com.congcoi123.example.backend.grpc" level="trace"/>-->
+<!--        <Logger name="org.springframework.r2dbc" level="debug"/>-->
+<!--        <Logger name="org.springframework.web.reactive.function.client.ExchangeFunctions" level="trace"/>-->
     </Loggers>
 
 </Configuration>

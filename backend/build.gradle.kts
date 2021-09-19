@@ -70,6 +70,7 @@ dependencies {
     implementation("org.springframework.data:spring-data-r2dbc:1.3.5")
     implementation("io.r2dbc:r2dbc-spi:0.9.0.M2")
     implementation("io.r2dbc:r2dbc-h2:0.8.2.RELEASE")
+    implementation("com.h2database:h2:1.4.199")
 
     // dev tools
     implementation("org.springframework.boot:spring-boot-devtools:2.5.4")
