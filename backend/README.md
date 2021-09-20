@@ -27,7 +27,7 @@ jdbc:h2:/<your_absolute_path>/grpc-webflux-mongodb/backend/src/main/resources/te
 
 ```
 
-![H2 Console Login](assets/h2-console-login.png)
+![H2 Console Login](../assets/h2-console-login.png)
 
 After successful login, you can make queries.
-![H2 Console Queries](assets/h2-console-queries.png)
+![H2 Console Queries](../assets/h2-console-queries.png)
