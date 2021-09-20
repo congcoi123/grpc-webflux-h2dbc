@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import kotlin.math.log
 import kotlin.random.Random
 
 @Service
@@ -26,16 +25,11 @@ class SkillService(
             damage = skillDto.damage,
             effective = Random.nextBoolean()
         )
-        logger.warn("Will create: ${skill.toString()}")
-
         return skillRepository.createNewCastedSkill(skill)
-            .doOnNext {
-                logger.warn("New ID: ${it.toString()}")
-            }
             .flatMap { skillId ->
                 skillRepository.getSkillById(skillId!!).map { it ->
                     SkillDto(it.skillId, SkillType.fromInt(it.type), it.name, it.damage, it.effective)
-                }.switchIfEmpty(Mono.empty())
-            }.switchIfEmpty(Mono.empty())
+                }
+            }
     }
 }

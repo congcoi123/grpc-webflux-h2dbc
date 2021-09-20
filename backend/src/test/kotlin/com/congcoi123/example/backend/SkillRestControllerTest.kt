@@ -5,6 +5,7 @@ import com.congcoi123.example.backend.enum.SkillType
 import com.congcoi123.example.backend.model.SkillModel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,10 +46,14 @@ class SkillRestControllerTest(
             .body(BodyInserters.fromPublisher(Mono.just(skillModel), SkillModel::class.java))
             .retrieve()
             .bodyToFlux(Skill::class.java)
-            .blockFirst()
+            .blockFirst() as Skill
 
         logger.error("FINISHED: ${result.toString()}")
 
-        assert(true)
+        assertAll({
+            assert(skillModel.name == result.name)
+            assert(skillModel.type == result.type)
+            assert(skillModel.damage == result.damage)
+        })
     }
 }

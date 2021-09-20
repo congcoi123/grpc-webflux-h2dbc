@@ -25,7 +25,7 @@ class SkillController(
     @PostMapping(
         value = ["/castskill"]
     )
-    suspend fun castSkill(
+    fun castSkill(
         @RequestBody skillModel: SkillModel
     ): Mono<Skill> {
         logger.warn("BODY: ${skillModel.toString()}")
