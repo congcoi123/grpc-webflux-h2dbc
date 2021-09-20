@@ -13,12 +13,12 @@ Build and run all test cases.
 ```
 
 ## H2 Console
-1. Accesses the following url to login to the H2 Console.
+1. Access the following url to login to the H2 Console.
 ```
 http://localhost:8082
 ```
 
-2. Change the JDBC URL as your absolute path to the `testdb.mv.db` in the project.
+2. Change the `JDBC URL` as your absolute path to the `testdb.mv.db` in the project.
 ```sh
 jdbc:h2:/<your_absolute_path>/grpc-webflux-mongodb/backend/src/main/resources/testdb
 ```
