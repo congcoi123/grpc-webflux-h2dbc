@@ -28,13 +28,6 @@ class SkillGrpcServiceTest(
     fun setup() {
         val channel = NettyChannelBuilder.forAddress("localhost", gRpcProperties.port)
             .usePlaintext()
-//            .negotiationType(NegotiationType.TLS)
-//            .sslContext(
-//                GrpcSslContexts.configure(
-//                    SslContextBuilder.forClient(),
-//                    SslProvider.OPENSSL
-//                ).trustManager(InsecureTrustManagerFactory.INSTANCE).build()
-//            )
             .build()
 
         caster = RxSkillAPIGrpc.newRxStub(channel)
