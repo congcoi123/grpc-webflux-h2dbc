@@ -1,7 +1,5 @@
 package com.congcoi123.example.backend.initializer
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.core.annotation.Order
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Component
     value = 1
 )
 class DatabaseInitialization {
-
-    private val logger: Logger = LoggerFactory.getLogger(DatabaseInitialization::class.java)
 
     @Bean
     fun runnerDatabase(client: DatabaseClient) =

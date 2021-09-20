@@ -1,6 +1,10 @@
 package com.congcoi123.example.backend
 
-import com.congcoi123.example.backend.proto.skill.*
+import com.congcoi123.example.backend.proto.skill.CastSkillRequest
+import com.congcoi123.example.backend.proto.skill.RxSkillAPIGrpc
+import com.congcoi123.example.backend.proto.skill.Skill
+import com.congcoi123.example.backend.proto.skill.SkillType
+import io.grpc.Channel
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
@@ -10,69 +14,56 @@ import io.grpc.netty.shaded.io.netty.handler.ssl.util.InsecureTrustManagerFactor
 import io.reactivex.Single
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.lognet.springboot.grpc.autoconfigure.GRpcServerProperties
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
-import java.util.concurrent.TimeUnit
 
 @SpringBootTest(
-	webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @ActiveProfiles("test")
 class SkillGrpcServiceTest(
-	@Autowired private val gRpcProperties: GRpcServerProperties
+    @Autowired private val gRpcProperties: GRpcServerProperties
 ) {
 
-	private val logger: Logger = LoggerFactory.getLogger(SkillGrpcServiceTest::class.java)
+    private lateinit var caster: RxSkillAPIGrpc.RxSkillAPIStub
 
-	private lateinit var caster: RxSkillAPIGrpc.RxSkillAPIStub
+    @BeforeEach
+    fun setup() {
+        val channel = NettyChannelBuilder.forAddress("localhost", gRpcProperties.port)
+            .negotiationType(NegotiationType.TLS)
+            .sslContext(
+                GrpcSslContexts.configure(
+                    SslContextBuilder.forClient(),
+                    SslProvider.OPENSSL
+                ).trustManager(InsecureTrustManagerFactory.INSTANCE).build()
+            )
+            .build()
 
-	@BeforeEach
-	fun setup() {
-		val channel = NettyChannelBuilder.forAddress("localhost", gRpcProperties.port)
-			.negotiationType(NegotiationType.TLS)
-			.sslContext(GrpcSslContexts.configure(
-				SslContextBuilder.forClient(),
-				SslProvider.OPENSSL
-			).trustManager(InsecureTrustManagerFactory.INSTANCE).build())
-			.build()
+        caster = RxSkillAPIGrpc.newRxStub(channel as Channel)
+    }
 
-		caster = RxSkillAPIGrpc.newRxStub(channel)
-	}
+    @Test
+    fun castSkillShouldReturnResult() {
+        val skillProto = Skill.newBuilder()
+            .setType(SkillType.SKILL_TYPE_FIRE)
+            .setName("Boiling Point")
+            .setDamage(30)
+            .build()
 
-	@Test
-	fun castSkillShouldReturnResult() {
-		val skill = Skill.newBuilder()
-			.setType(SkillType.SKILL_TYPE_FIRE)
-			.setName("Boiling Point")
-			.setDamage(10)
-			.build()
+        val request = Single.just(CastSkillRequest.newBuilder().setSkill(skillProto).build())
+        val result = caster.castSkill(request)
+            .map { it ->
+                it.castedSkill
+            }
+            .blockingGet() as Skill
 
-		logger.info(skill.toString())
-
-		val request = Single.just(CastSkillRequest.newBuilder().setSkill(skill).build())
-//		val expectedResult = CastedSkill.newBuilder().setEffective(true).build()
-
-//		caster.castSkill(request)
-//			.map(CastSkillRequestResponse::getResult)
-//			.test()
-//			.await()
-//			.assertValue(expectedResult)
-
-		logger.warn("Here we are")
-
-		val test = caster.castSkill(request).test().awaitTerminalEvent(3, TimeUnit.SECONDS)
-
-//		val effectiveResult = request.`as`(caster::castSkill)
-//			.map(CastSkillRequestResponse::getResult)
-//			.blockingGet().effective
-//
-//		logger.info("Result: $effectiveResult")
-
-		assert(true)
-	}
-
+        assertAll({
+            assert(skillProto.name == result.name)
+            assert(skillProto.type == result.type)
+            assert(skillProto.damage == result.damage)
+        })
+    }
 }

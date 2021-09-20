@@ -1,15 +1,37 @@
 package com.congcoi123.example.backend.grpc.service
 
+import com.congcoi123.example.backend.converter.SkillConverter
+import com.congcoi123.example.backend.proto.skill.CastSkillRequest
+import com.congcoi123.example.backend.proto.skill.CastSkillResponse
 import com.congcoi123.example.backend.proto.skill.RxSkillAPIGrpc
 import com.congcoi123.example.backend.service.SkillService
+import io.reactivex.Single
 import org.lognet.springboot.grpc.GRpcService
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import reactor.adapter.rxjava.RxJava2Adapter
 
 @GRpcService
 class SkillApiGrpcService(
-    private val skillService: SkillService
+    @Autowired private val skillService: SkillService
 ) : RxSkillAPIGrpc.SkillAPIImplBase() {
 
-    private val logger: Logger = LoggerFactory.getLogger(SkillApiGrpcService::class.java)
+    override fun castSkill(request: Single<CastSkillRequest>): Single<CastSkillResponse> =
+        request
+            .map {
+                it.skill
+            }
+            .map {
+                SkillConverter.convert(it)
+            }
+            .flatMap { skillDto ->
+                RxJava2Adapter.monoToSingle(
+                    skillService.castSkill(skillDto)
+                        .map { skillDtoResult ->
+                            SkillConverter.reverse().convert(skillDtoResult)
+                        }
+                        .map { skillProto ->
+                            CastSkillResponse.newBuilder().setCastedSkill(skillProto).build()
+                        }
+                )
+            }
 }

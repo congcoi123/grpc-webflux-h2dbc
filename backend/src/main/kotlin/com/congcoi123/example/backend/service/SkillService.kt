@@ -4,8 +4,6 @@ import com.congcoi123.example.backend.dao.Skill
 import com.congcoi123.example.backend.dto.SkillDto
 import com.congcoi123.example.backend.enum.SkillType
 import com.congcoi123.example.backend.repository.SkillRepository
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
@@ -15,8 +13,6 @@ import kotlin.random.Random
 class SkillService(
     @Autowired private val skillRepository: SkillRepository
 ) {
-
-    private val logger: Logger = LoggerFactory.getLogger(SkillService::class.java)
 
     fun castSkill(skillDto: SkillDto): Mono<SkillDto> {
         val skill = Skill(
