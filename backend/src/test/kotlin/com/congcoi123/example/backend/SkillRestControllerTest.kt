@@ -48,8 +48,6 @@ class SkillRestControllerTest(
             .bodyToFlux(Skill::class.java)
             .blockFirst() as Skill
 
-        logger.error("FINISHED: ${result.toString()}")
-
         assertAll({
             assert(skillModel.name == result.name)
             assert(skillModel.type == result.type)

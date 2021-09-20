@@ -27,21 +27,13 @@ class SkillController(
     )
     fun castSkill(
         @RequestBody skillModel: SkillModel
-    ): Mono<Skill> {
-        logger.warn("BODY: ${skillModel.toString()}")
-
-        return skillService.castSkill(
-            SkillDto(
-                name = skillModel.name,
-                type = SkillType.fromInt(skillModel.type),
-                damage = skillModel.damage
-            )
+    ): Mono<Skill> = skillService.castSkill(
+        SkillDto(
+            name = skillModel.name,
+            type = SkillType.fromInt(skillModel.type),
+            damage = skillModel.damage
         )
-            .doOnNext {
-                logger.warn("DTO: ${it.toString()}")
-            }
-            .map { skillDto ->
-            Skill(skillDto.skillId, skillDto.type.value, skillDto.name, skillDto.damage, skillDto.effective)
-        }
+    ).map { skillDto ->
+        Skill(skillDto.skillId, skillDto.type.value, skillDto.name, skillDto.damage, skillDto.effective)
     }
 }
