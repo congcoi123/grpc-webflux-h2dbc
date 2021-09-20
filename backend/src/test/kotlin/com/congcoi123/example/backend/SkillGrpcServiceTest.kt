@@ -4,13 +4,7 @@ import com.congcoi123.example.backend.proto.skill.CastSkillRequest
 import com.congcoi123.example.backend.proto.skill.RxSkillAPIGrpc
 import com.congcoi123.example.backend.proto.skill.Skill
 import com.congcoi123.example.backend.proto.skill.SkillType
-import io.grpc.Channel
-import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts
-import io.grpc.netty.shaded.io.grpc.netty.NegotiationType
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
-import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder
-import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider
-import io.grpc.netty.shaded.io.netty.handler.ssl.util.InsecureTrustManagerFactory
+import io.grpc.netty.NettyChannelBuilder
 import io.reactivex.Single
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,16 +27,17 @@ class SkillGrpcServiceTest(
     @BeforeEach
     fun setup() {
         val channel = NettyChannelBuilder.forAddress("localhost", gRpcProperties.port)
-            .negotiationType(NegotiationType.TLS)
-            .sslContext(
-                GrpcSslContexts.configure(
-                    SslContextBuilder.forClient(),
-                    SslProvider.OPENSSL
-                ).trustManager(InsecureTrustManagerFactory.INSTANCE).build()
-            )
+            .usePlaintext()
+//            .negotiationType(NegotiationType.TLS)
+//            .sslContext(
+//                GrpcSslContexts.configure(
+//                    SslContextBuilder.forClient(),
+//                    SslProvider.OPENSSL
+//                ).trustManager(InsecureTrustManagerFactory.INSTANCE).build()
+//            )
             .build()
 
-        caster = RxSkillAPIGrpc.newRxStub(channel as Channel)
+        caster = RxSkillAPIGrpc.newRxStub(channel)
     }
 
     @Test

@@ -20,15 +20,11 @@ class SkillApiGrpcService(
             .map {
                 it.skill
             }
-            .map {
-                SkillConverter.convert(it)
-            }
+            .map(SkillConverter::convert)
             .flatMap { skillDto ->
                 RxJava2Adapter.monoToSingle(
                     skillService.castSkill(skillDto)
-                        .map { skillDtoResult ->
-                            SkillConverter.reverse().convert(skillDtoResult)
-                        }
+                        .map(SkillConverter.reverse()::convert)
                         .map { skillProto ->
                             CastSkillResponse.newBuilder().setCastedSkill(skillProto).build()
                         }

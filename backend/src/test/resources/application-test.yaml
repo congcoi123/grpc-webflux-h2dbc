@@ -13,4 +13,4 @@ spring:
     url: mem:testdb;DB_CLOSE_DELAY=-1;
     driverClassName: org.h2.Driver
     password:
-    dbfile: /Users/kong/testdb
+    dbfile: ./src/main/resources/testdb

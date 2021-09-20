@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.io.IOException
 
-@Configuration
-@EnableConfigurationProperties(GrpcProperty::class)
+//@Configuration
+//@EnableConfigurationProperties(GrpcProperty::class)
 class GrpcConfiguration {
 
     @Bean
