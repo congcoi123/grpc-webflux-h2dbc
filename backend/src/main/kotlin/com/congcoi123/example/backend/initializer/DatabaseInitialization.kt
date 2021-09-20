@@ -23,7 +23,8 @@ class DatabaseInitialization {
                   `skill_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
                   `type` INT NOT NULL,
                   `name` VARCHAR(250) DEFAULT NULL,
-                  `damage` INT DEFAULT NULL
+                  `damage` INT DEFAULT NULL,
+                  `effective` BOOLEAN DEFAULT 0
                 );
                 
                 INSERT INTO `skill` (`type`, `name`, `damage`) VALUES(3, 'Boiling Point', 10);
@@ -35,7 +36,7 @@ class DatabaseInitialization {
 
         // testing
         skillRepository.getAllSkills().subscribe {
-            logger.info("Result: ${it.toString()}")
+            logger.info("[TESTING DATABASE] Retrieved: ${it.toString()}")
         }
     }
 }

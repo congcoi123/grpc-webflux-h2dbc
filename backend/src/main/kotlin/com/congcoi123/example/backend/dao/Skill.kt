@@ -8,11 +8,13 @@ import org.springframework.data.relational.core.mapping.Table
 data class Skill(
     @Id
     @Column("skill_id")
-    val skillId: Long?,
+    val skillId: Long? = null,
     @Column("type")
     val type: Int,
     @Column("name")
     val name: String,
     @Column("damage")
-    val damage: Int
+    val damage: Int,
+    @Column("effective")
+    val effective: Boolean? = null
 )

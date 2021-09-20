@@ -11,6 +11,7 @@ message Skill {
   SkillType type = 2;
   string name = 3;
   uint32 damage = 4;
+  bool effective = 5;
 }
 
 enum SkillType {

@@ -55,6 +55,7 @@ dependencies {
     implementation("io.grpc:grpc-netty:$grpcVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("io.grpc:grpc-stub:$grpcVersion")
+    implementation("io.projectreactor.addons:reactor-adapter:3.4.5")
 
     // reactive grpc
     implementation("com.salesforce.servicelibs:rxgrpc-stub:$rxgrpcVersion")
@@ -62,6 +63,7 @@ dependencies {
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 
     // reactive
     implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")

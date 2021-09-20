@@ -1,35 +1,31 @@
 package com.congcoi123.example.backend.service
 
-import com.congcoi123.example.backend.dto.CastedSkillDto
+import com.congcoi123.example.backend.dao.Skill
 import com.congcoi123.example.backend.dto.SkillDto
+import com.congcoi123.example.backend.enum.SkillType
 import com.congcoi123.example.backend.repository.SkillRepository
-import io.reactivex.Flowable
-import io.reactivex.Single
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import kotlin.random.Random
 
 @Service
-class SkillService {
+class SkillService(
+    @Autowired private val skillRepository: SkillRepository
+) {
 
-    @Autowired private lateinit var skillRepository: SkillRepository
-
-    suspend fun castSkill(skill: Single<SkillDto>): Single<CastedSkillDto> =
-        skill.map {
-            transformToCasted(it)
-        }
-
-    suspend fun castComboSkill(skill: Single<SkillDto>): Flowable<CastedSkillDto> =
-        skill
-            .toFlowable()
-            .flatMap { Flowable.just(transformToCasted(it)) }
-
-    suspend fun castMultipleSkill(skill: Flowable<SkillDto>): Flowable<CastedSkillDto> =
-        skill.map {
-            transformToCasted(it)
-        }
-
-    // TODO: Retrieve data from database sources
-    private fun transformToCasted(skillDto: SkillDto): CastedSkillDto =
-        CastedSkillDto(SkillDto(Random.nextLong(), skillDto.type, skillDto.name, skillDto.damage), Random.nextBoolean())
+    fun castSkill(skillDto: SkillDto): Mono<SkillDto> {
+        val skill = Skill(
+            type = skillDto.type.value,
+            name = skillDto.name,
+            damage = skillDto.damage,
+            effective = Random.nextBoolean()
+        )
+        return skillRepository.createNewCastedSkill(skill)
+            .flatMap { skillId ->
+                skillRepository.getSkillById(skillId!!).map { it ->
+                    SkillDto(it.skillId, SkillType.fromInt(it.type), it.name, it.damage, it.effective)
+                }.switchIfEmpty(Mono.empty())
+            }.switchIfEmpty(Mono.empty())
+    }
 }

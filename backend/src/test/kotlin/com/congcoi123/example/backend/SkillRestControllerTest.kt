@@ -1,6 +1,7 @@
 package com.congcoi123.example.backend
 
-import com.congcoi123.example.backend.proto.skill.Skill
+import com.congcoi123.example.backend.dao.Skill
+import com.congcoi123.example.backend.enum.SkillType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
@@ -8,8 +9,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.web.reactive.function.BodyInserter
+import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 
 @SpringBootTest(
@@ -26,26 +28,25 @@ class SkillRestControllerTest(
 
     @BeforeEach
     fun setup() {
-        webClient = WebClient
-            .builder()
-            .baseUrl("http://localhost:${serverProperties.port}")
-            .build()
+        webClient = WebClient.create("http://localhost:${serverProperties.port}")
     }
 
     @Test
     fun castSkillShouldReturnResult() {
-        val result = webClient.get()
-            .uri("/castskill")
-            .accept(MediaType.TEXT_EVENT_STREAM)
-            .attribute("name", "Boiling Point")
-            .attribute("type", 3)
-            .attribute("damage", 10)
+        val skill = Skill(
+            name = "Boiling Point",
+            type = SkillType.SKILL_TYPE_FIRE.value,
+            damage = 20
+        )
+        val result = webClient
+            .post()
+            .uri("/api/castskill")
+            .body(BodyInserters.fromValue(skill))
             .retrieve()
             .bodyToMono(Skill::class.java)
-            .map { logger.warn(it.toString()) }
             .block()
 
-        logger.warn(result.toString())
+        logger.error("FINISHED: ${result.toString()}")
 
         assert(true)
     }

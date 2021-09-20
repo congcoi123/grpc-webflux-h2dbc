@@ -19,10 +19,5 @@ message CastSkillRequest {
 }
 
 message CastSkillResponse {
-  CastedSkill casted_skill = 1;
-}
-
-message CastedSkill {
-  Skill skill = 1;
-  bool effective = 2;
+  Skill casted_skill = 1;
 }
