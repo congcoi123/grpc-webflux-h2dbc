@@ -10,11 +10,11 @@ data class Skill(
     @Column("skill_id")
     val skillId: Long? = null,
     @Column("type")
-    val type: Int,
+    val type: Int = 0,
     @Column("name")
-    val name: String,
+    val name: String = "",
     @Column("damage")
-    val damage: Int,
+    val damage: Int = 0,
     @Column("effective")
     val effective: Boolean? = null
 )

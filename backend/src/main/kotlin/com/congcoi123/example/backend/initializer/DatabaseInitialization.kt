@@ -1,5 +1,7 @@
 package com.congcoi123.example.backend.initializer
 
+import com.congcoi123.example.backend.dao.Skill
+import com.congcoi123.example.backend.enum.SkillType
 import com.congcoi123.example.backend.repository.SkillRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -35,6 +37,15 @@ class DatabaseInitialization {
             .subscribe()
 
         // testing
+        skillRepository.createNewCastedSkill(
+            Skill(
+                name = "Test",
+                type = SkillType.SKILL_TYPE_UNKNOWN.value,
+                damage = 1
+            )
+        ).subscribe{
+            logger.info("[TESTING DATABASE] Created: ${it.toString()}")
+        }
         skillRepository.getAllSkills().subscribe {
             logger.info("[TESTING DATABASE] Retrieved: ${it.toString()}")
         }

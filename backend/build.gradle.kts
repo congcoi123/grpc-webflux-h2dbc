@@ -61,9 +61,11 @@ dependencies {
     implementation("com.salesforce.servicelibs:rxgrpc-stub:$rxgrpcVersion")
 
     // kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.30")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.30")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2")
 
     // reactive
     implementation("io.reactivex.rxjava2:rxjava:$rxJavaVersion")
@@ -71,8 +73,8 @@ dependencies {
     // database
     implementation("org.springframework.data:spring-data-r2dbc:1.3.5")
     implementation("io.r2dbc:r2dbc-spi:0.9.0.M2")
-    implementation("io.r2dbc:r2dbc-h2:0.8.2.RELEASE")
-    implementation("com.h2database:h2:1.4.199")
+    implementation("io.r2dbc:r2dbc-h2:0.8.4.RELEASE")
+    implementation("com.h2database:h2:1.4.200")
 
     // dev tools
     implementation("org.springframework.boot:spring-boot-devtools:2.5.4")

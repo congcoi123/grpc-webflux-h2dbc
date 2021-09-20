@@ -19,13 +19,17 @@ class SkillRepository(
             .map { row, metadata -> converter.read(Skill::class.java, row, metadata) }
             .one()
 
-    fun createNewCastedSkill(skill: Skill): Mono<Long?> =
-        client.sql("INSERT INTO skill (name, type, damage) VALUES($1, $2);")
+    fun createNewCastedSkill(skill: Skill): Mono<Long> =
+        client.sql("INSERT INTO skill (name, type, damage) VALUES($1, $2, $3);")
+            .filter { statement, _ ->
+                statement.returnGeneratedValues("skill_id").execute()
+            }
             .bind(0, skill.name)
             .bind(1, skill.type)
             .bind(2, skill.damage)
-            .map { it -> it.get("skill_id", Long::class.java) }
-            .one()
+            .fetch()
+            .first()
+            .map { it -> it["skill_id"] as Long }
 
     fun getAllSkills(): Flux<Skill> =
         client.sql("SELECT * FROM skill;")
