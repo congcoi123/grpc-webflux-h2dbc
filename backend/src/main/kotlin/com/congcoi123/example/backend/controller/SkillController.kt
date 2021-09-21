@@ -28,15 +28,22 @@ import com.congcoi123.example.backend.dto.SkillDto
 import com.congcoi123.example.backend.enum.SkillType
 import com.congcoi123.example.backend.model.SkillModel
 import com.congcoi123.example.backend.service.SkillService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
+@Tag(
+    name = "Casted Skills APIs",
+    description = "All APIs related to the casted skills from players"
+)
 class SkillController(
     @Autowired private val skillService: SkillService
 ) {
@@ -44,8 +51,12 @@ class SkillController(
     @PostMapping(
         value = ["/castskill"]
     )
+    @Operation(
+        description = "Player cast a skill",
+        requestBody = io.swagger.v3.oas.annotations.parameters.RequestBody()
+    )
     fun castSkill(
-        @RequestBody skillModel: SkillModel
+        @Valid @RequestBody skillModel: SkillModel
     ): Mono<Skill> = skillService.castSkill(
         SkillDto(
             name = skillModel.name,

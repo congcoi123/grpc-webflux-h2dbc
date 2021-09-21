@@ -23,10 +23,19 @@ THE SOFTWARE.
  */
 package com.congcoi123.example.backend
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
+@OpenAPIDefinition(
+    info = Info(
+        title = "APIs",
+        version = "0.0.1",
+        description = "Documentation APIs version 0.0.1"
+    )
+)
 class BackendApplication
 
 fun main(args: Array<String>) {
