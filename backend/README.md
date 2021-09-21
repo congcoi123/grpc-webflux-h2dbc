@@ -27,3 +27,13 @@ jdbc:h2:/<your_absolute_path>/grpc-webflux-mongodb/backend/src/main/resources/te
 
 3. After successful login, you can make queries.
 ![H2 Console Queries](../assets/h2-console-queries.png)
+
+## APIs Documentation
+1. Access the following url to show the APIs documentation.
+```
+http://localhost:8080/swagger-ui.html
+```
+
+![APIs Documentation](../assets/apis-documentation.png)
+
+> Happy coding !
