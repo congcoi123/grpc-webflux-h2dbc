@@ -23,7 +23,10 @@ THE SOFTWARE.
  */
 package com.congcoi123.example.backend.model
 
+import javax.validation.constraints.NotNull
+
 data class SkillModel(
+    @NotNull
     val type: Int = 0,
     val name: String = "",
     val damage: Int = 0

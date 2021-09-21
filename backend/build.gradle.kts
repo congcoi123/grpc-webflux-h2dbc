@@ -44,6 +44,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
+    // validation
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // swagger
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:1.4.3")
+
     // detekt
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 

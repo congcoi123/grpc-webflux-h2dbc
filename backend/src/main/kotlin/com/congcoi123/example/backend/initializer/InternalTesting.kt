@@ -70,7 +70,7 @@ class InternalTesting {
                     damage = 1
                 )
             ).doOnNext {
-                logger.warn("[TESTING DATABASE] New ID Generated: $it")
+                logger.info("[TESTING DATABASE] New ID Generated: $it")
             }.flatMap { skillId ->
                 skillRepository.getSkillById(skillId!!).map { it ->
                     SkillDto(it.skillId, SkillType.fromInt(it.type), it.name, it.damage, it.effective)
