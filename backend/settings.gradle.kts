@@ -1,1 +1,1 @@
-rootProject.name = "webflux-grpc-mongodb"
+rootProject.name = "webflux-grpc-h2dbc"
